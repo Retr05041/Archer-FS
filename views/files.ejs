@@ -10,7 +10,12 @@
 
 <body>
     <h1>All Files in /data Folder </h1>
+    <a href="/">
+        <button>Home</button>
+    <br>
+
     <% for (let file of files) { %>
+        <br>
         <a href="/data/<%= file %>" download>
             <%= file %>
         </a>

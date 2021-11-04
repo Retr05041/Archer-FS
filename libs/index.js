@@ -14,7 +14,7 @@ app.use("/data", express.static("./data")); // Estabilshes "files" as a folder n
 
 // Home
 app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - lambda function that takes "req" (request) and "res" (response)
-    res.sendFile("index.html", { root: "./libs/static" }); // Responds by sending index.html file
+    res.render("index.ejs") // Responds by rendering index.ejs file
 })
 
 // Files

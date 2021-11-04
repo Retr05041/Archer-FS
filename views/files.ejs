@@ -9,8 +9,9 @@
 </head>
 
 <body>
+    <h1>All Files in /data Folder </h1>
     <% for (let file of files) { %>
-        <a href="/files/<%= file %>" download>
+        <a href="/data/<%= file %>" download>
             <%= file %>
         </a>
         <br>

@@ -5,7 +5,7 @@ const path = require("path"); // To get path to files
 const fs = require("fs"); // Dealing with files
 const ejs = require('ejs'); // Template system to display files - https://ejs.co/
 
-app.use("/files", express.static("libs/files")); // Estabilshes "files" as a folder named "/files"
+app.use("/data", express.static("./data")); // Estabilshes "files" as a folder named "/files"
 
 // app.METHOD(PATH, HANDLER)
 // METHOD is an HTTP request method, in lowercase.
@@ -19,7 +19,7 @@ app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - l
 
 // Files
 app.get("/files", (req, res) => { // Goes to /files (currently no html file there)
-    let files = fs.readdirSync("libs/files/"); // Every time the site is reloded it will list new files :)
+    let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
     res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
 });
 

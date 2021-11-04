@@ -12,12 +12,25 @@
     <h1>All Files in /data Folder </h1>
     <a href="/">
         <button>Home</button>
+    </a>
     <br>
+    <br>
+    <h2>--------------------------</h2>
+    <form method="POST" action="/upload-data" enctype="multipart/form-data">
+        <div>
+            <label>Select data for upload:</label>
+            <input type="file" name="uploadData" multiple />
+            <input type="submit" name="btn_upload_data" value="Upload" />
+        </div>
+    </form>
+
+    <h2>--------------------------</h2>
 
     <% for (let file of files) { %>
         <br>
+        <%= file %>
         <a href="/data/<%= file %>" download>
-            <%= file %>
+            <button>Download</button>
         </a>
         <br>
         <% } %>

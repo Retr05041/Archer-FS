@@ -64,6 +64,7 @@ app.post("/upload-data", (req, res) => {
 });
 // End of their code
 
+// Delete function - Had help from Matthew
 app.delete("/data", (req, res) => {
     let fileName = req.query.fileName
     if (!fileName) return res.status(400).send("Incorrect File");

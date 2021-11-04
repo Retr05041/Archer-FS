@@ -6,13 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Files</title>
+    <!-- JS that creates an async function thats called deleteFile that calls the delete function in index.js -->
+    <!-- Uses try catch to make sure it worked -->
     <script>
         async function deleteFile(fileName) {
-            let URL = `/data?fileName=${fileName}`
-            let response = await fetch(URL, {
+            try {
+                let response = await fetch(`/data?fileName=${fileName}`, {
                 method:"DELETE"
-            });
-            location.reload();
+                });
+                alert("Successfully deleted: " + fileName);
+                location.reload();
+            } catch (e) {
+                alert("Error - Check Console");
+                console.error(e);
+            }
         }
     </script>
 </head>
@@ -24,6 +31,7 @@
     </a>
     <br>
     <br>
+    <!-- Upload function - see app.post("/upload-data") -->
     <h2>--------------------------</h2>
     <form method="POST" action="/upload-data" enctype="multipart/form-data">
         <div>
@@ -32,15 +40,15 @@
             <input type="submit" name="btn_upload_data" value="Upload" />
         </div>
     </form>
-
     <h2>--------------------------</h2>
-
+    <!-- Lists files in data dir - see app.get("/data") -->
     <% for (let file of files) { %>
         <br>
         <%= file %>
         <a href="/data/<%= file %>" download>
             <button>Download</button>
         </a>
+        <!-- Calls the async function at the top of the file, which calls the js function in index.js -->
         <button onclick="deleteFile('<%= file %>')">Delete</button>
         <% } %>
 </body>

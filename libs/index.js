@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
     // By default, multer removes file extensions so let's add them back
     filename: function(req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.fieldname + path.extname(file.originalname));
     }
 });
 // End of their code
@@ -65,6 +65,12 @@ app.post("/upload-data", (req, res) => {
 // End of their code
 
 app.delete("/data", (req, res) => {
+    let fileName = req.query.fileName
+    if (!fileName) return res.status(400).send("Incorrect File");
+    let target = path.join("data", fileName); // DANGEROUS DONT FUCK WITH - FIX THIS PLEASE
+    if (!fs.existsSync(target)) return res.status(404).send("File not found");
+    fs.unlinkSync(target);
+    res.status(200).send();
     
 });
 

@@ -6,6 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Files</title>
+    <script>
+        async function deleteFile(fileName) {
+            let URL = `/data?fileName=${fileName}`
+            let response = await fetch(URL, {
+                method:"DELETE"
+            });
+            location.reload();
+        }
+    </script>
 </head>
 
 <body>
@@ -32,7 +41,7 @@
         <a href="/data/<%= file %>" download>
             <button>Download</button>
         </a>
-        <br>
+        <button onclick="deleteFile('<%= file %>')">Delete</button>
         <% } %>
 </body>
 

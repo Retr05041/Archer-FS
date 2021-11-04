@@ -17,7 +17,7 @@ const storage = multer.diskStorage({
 
     // By default, multer removes file extensions so let's add them back
     filename: function(req, file, cb) {
-        cb(null, file.originalname);
+        cb(null, file.originalname); // Edited this for my own purposes
     }
 });
 // End of their code
@@ -88,5 +88,5 @@ app.delete("/data", (req, res) => {
 
 // Onready
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Server up at http://localhost:${port}`);
 })

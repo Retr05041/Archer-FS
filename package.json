@@ -16,7 +16,8 @@
     "url": "https://github.com/Retr05041/Archer-FS/issues"
   },
   "homepage": "https://github.com/Retr05041/Archer-FS#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "mocha": "^9.1.3"
   }
 }

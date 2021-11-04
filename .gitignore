@@ -104,4 +104,4 @@ dist
 .tern-port
 
 # Remove data folder from being pushed
-data/*
+data

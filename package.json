@@ -1,0 +1,22 @@
+{
+  "name": "archer-fs",
+  "version": "1.0.0",
+  "description": "Archer-FS is a file server built for portability and accessability in mind",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Retr05041/Archer-FS.git"
+  },
+  "author": "Parker Cranfield",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Retr05041/Archer-FS/issues"
+  },
+  "homepage": "https://github.com/Retr05041/Archer-FS#readme",
+  "dependencies": {
+    "mocha": "^9.1.3"
+  }
+}

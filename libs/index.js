@@ -34,8 +34,10 @@ app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - l
 
 // Data
 app.get("/data", (req, res) => { // Goes to /data
+
     let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
     res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
+
 });
 
 // Upload Data - Taken from https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
@@ -67,12 +69,21 @@ app.post("/upload-data", (req, res) => {
 // Delete function - Had help from Matthew
 app.delete("/data", (req, res) => {
     let fileName = req.query.fileName
+    let files = fs.readdirSync("./data/");
+
     if (!fileName) return res.status(400).send("Incorrect File");
-    let target = path.join("data", fileName); // DANGEROUS DONT FUCK WITH - FIX THIS PLEASE
-    if (!fs.existsSync(target)) return res.status(404).send("File not found");
-    fs.unlinkSync(target);
-    res.status(200).send();
-    
+
+    if (files.includes(fileName)) {
+
+        let target = path.join("data", fileName);
+
+        fs.unlinkSync(target);
+        res.status(200).send();
+
+    } else {
+        res.status(404).send("File not found");
+    }
+
 });
 
 // Onready

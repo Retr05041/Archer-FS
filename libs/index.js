@@ -8,6 +8,10 @@ const multer = require("multer"); // Uploading files to /data
 const cookieParser = require("cookie-parser"); // For generating cookies on login
 const crypto = require("crypto") // For Hashing pass and user
 
+// Temp user and pass before adding database
+const USERNAME = "root";
+const PASSWORD = "root";
+
 // Estabilshes "files" as a folder named "/files"
 app.use("/data", express.static("./data")); // now able to access /data in ejs files
 // For accessing the Login folder
@@ -15,6 +19,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 // For use of cookies
 app.use(cookieParser());
+
+// Function for hashing creds
+function hashedCredentials(username, password) {
+    return crypto.createHash('sha512').update(username + password).digest('hex'); // "digest" is the output of hash function containingonly hexadecimal digits
+}
 
 // This was taken by - https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
 const storage = multer.diskStorage({
@@ -41,9 +50,10 @@ app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - l
 
 // Data
 app.get("/data", (req, res) => { // Goes to /data
+    let hashed = hashedCredentials(USERNAME, PASSWORD);
     // Checks if the cookie "LoggedInUser" is True, if it does it allows them in, if its not it doesnt let them in
     let cookie = req.cookies.LoggedInUser;
-    if (cookie) {
+    if (cookie == hashed) {
         let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
         res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
     } else {
@@ -79,12 +89,10 @@ app.post("/upload-data", (req, res) => {
 
 // Login
 app.post("/", (req, res) => {
-    let hash = crypto.getHashes(); // Returns the names of supported hash algorithms - SHA1,MD5
     let username = req.body.username; // Gets username
     let password = req.body.password; // Gets password
-    if (username == "root" && password == "root") {
-        // "digest" is the output of hash function containingonly hexadecimal digits
-        let hashed = crypto.createHash('sha512').update(username + password).digest('hex');
+    if (username == USERNAME && password == PASSWORD) {
+        let hashed = hashedCredentials(username, password);
         // Generates a cookie of the login is correct "LoggedInUser" - taken from https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
         // Edited a little to fit my needs better
         res.cookie("LoggedInUser", hashed, { maxAge: 300000, httpOnly: true }); // Lasts for 10 min

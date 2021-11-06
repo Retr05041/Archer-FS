@@ -87,7 +87,7 @@ app.post("/", (req, res) => {
             // Edited a little to fit my needs better
             var randomNumber=Math.random().toString();
             randomNumber=randomNumber.substring(2,randomNumber.length);
-            res.cookie("LoggedInUser",randomNumber, { maxAge: 15000, httpOnly: true }); // Lasts for 10 min
+            res.cookie("LoggedInUser",randomNumber, { maxAge: 300000, httpOnly: true }); // Lasts for 10 min
             console.log("cookie created successfully");
             // end of their code
             res.redirect("/data"); // Logs in if user and pass are "root"

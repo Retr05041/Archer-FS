@@ -17,3 +17,5 @@ Well for now I just want it to be functional, having a bear bones app that I can
 In the future I hope for it to look good, be more secure (as I still know very little JS) and maybe add features,
 ex. Subdirectories, Search by name, adding users, deleting users (as root), allowing certain files to be accessed by
 certain users, etc.
+
+<!-- https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax -->

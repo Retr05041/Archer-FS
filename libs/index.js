@@ -17,6 +17,10 @@ app.use("/data", express.static("./data")); // now able to access /data in ejs f
 // For accessing the Login folder
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// So it sees CSS files
+app.use(express.static("./static"));
+
 // For use of cookies
 app.use(cookieParser());
 

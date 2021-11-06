@@ -80,14 +80,14 @@ app.post("/upload-data", (req, res) => {
 app.post("/", (req, res) => {
     let username = req.body.username; // Gets username
     let password = req.body.password; // Gets password
-    console.log(username + "Has logged in"); // Simple hey
+    console.log(username + " has logged in."); // Simple log
     if (username == "root") {
         if (password == "root") {
             // Generates a cookie of the login is correct "LoggedInUser" - taken from https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
             // Edited a little to fit my needs better
             var randomNumber=Math.random().toString();
             randomNumber=randomNumber.substring(2,randomNumber.length);
-            res.cookie("LoggedInUser",randomNumber, { maxAge: 10000, httpOnly: true }); // Lasts for 10 min
+            res.cookie("LoggedInUser",randomNumber, { maxAge: 15000, httpOnly: true }); // Lasts for 10 min
             console.log("cookie created successfully");
             // end of their code
             res.redirect("/data"); // Logs in if user and pass are "root"

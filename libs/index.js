@@ -3,9 +3,10 @@ const app = express(); // app is an instance of express.
 const port = 3000; // Const port var
 const path = require("path"); // To get path to files
 const fs = require("fs"); // Dealing with files
-const ejs = require('ejs'); // Template system to display files - https://ejs.co/
-const multer = require('multer'); // Uploading files to /data
-const cookieParser = require('cookie-parser'); // For generating cookies on login
+const ejs = require("ejs"); // Template system to display files - https://ejs.co/
+const multer = require("multer"); // Uploading files to /data
+const cookieParser = require("cookie-parser"); // For generating cookies on login
+const crypto = require("crypto") // For Hashing pass and user
 
 // Estabilshes "files" as a folder named "/files"
 app.use("/data", express.static("./data")); // now able to access /data in ejs files
@@ -78,20 +79,19 @@ app.post("/upload-data", (req, res) => {
 
 // Login
 app.post("/", (req, res) => {
+    let hash = crypto.getHashes(); // Returns the names of supported hash algorithms - SHA1,MD5
     let username = req.body.username; // Gets username
     let password = req.body.password; // Gets password
-    console.log(username + " has logged in."); // Simple log
-    if (username == "root") {
-        if (password == "root") {
-            // Generates a cookie of the login is correct "LoggedInUser" - taken from https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
-            // Edited a little to fit my needs better
-            var randomNumber=Math.random().toString();
-            randomNumber=randomNumber.substring(2,randomNumber.length);
-            res.cookie("LoggedInUser",randomNumber, { maxAge: 300000, httpOnly: true }); // Lasts for 10 min
-            console.log("cookie created successfully");
-            // end of their code
-            res.redirect("/data"); // Logs in if user and pass are "root"
-        }
+    if (username == "root" && password == "root") {
+        // "digest" is the output of hash function containingonly hexadecimal digits
+        let hashed = crypto.createHash('sha512').update(username + password).digest('hex');
+        // Generates a cookie of the login is correct "LoggedInUser" - taken from https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
+        // Edited a little to fit my needs better
+        res.cookie("LoggedInUser", hashed, { maxAge: 300000, httpOnly: true }); // Lasts for 10 min
+        console.log("cookie created successfully");
+        // end of their code
+        console.log(username + " has logged in."); // Simple log
+        res.redirect("/data"); // Logs in if user and pass are "root"
     } else {
         res.redirect("/") // Else it just resets :)
     };

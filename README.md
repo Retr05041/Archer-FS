@@ -18,4 +18,14 @@ In the future I hope for it to look good, be more secure (as I still know very l
 ex. Subdirectories, Search by name, adding users, deleting users (as root), allowing certain files to be accessed by
 certain users, etc.
 
+## How to use?
+Currently this is ***in development*** so please use at your own risk, Until I release a stable release I ***highly suggest*** you dont
+make this web-facing. But if you want to clone and play around, feel free!
+Installation instructions: (current Version of node is ***v16.12.0***)
+1. Clone Repo
+2. Inside **Archer-FS** make a "data" folder (this is where your files will be stored)
+3. go into libs/index.js and scroll down to the login function, and change the allowed username and password to your preference
+4. Run through Nodejs (remember to install required dependancies, see the top of index.js for a list of them)
+5. Go to localhost:3000
+
 <!-- https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax -->

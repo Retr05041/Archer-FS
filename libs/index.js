@@ -5,9 +5,15 @@ const path = require("path"); // To get path to files
 const fs = require("fs"); // Dealing with files
 const ejs = require('ejs'); // Template system to display files - https://ejs.co/
 const multer = require('multer'); // Uploading files to /data
+const cookieParser = require('cookie-parser'); // For generating cookies on login
 
 // Estabilshes "files" as a folder named "/files"
 app.use("/data", express.static("./data")); // now able to access /data in ejs files
+// For accessing the Login folder
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+// For use of cookies
+app.use(cookieParser());
 
 // This was taken by - https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
 const storage = multer.diskStorage({
@@ -34,10 +40,14 @@ app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - l
 
 // Data
 app.get("/data", (req, res) => { // Goes to /data
-
-    let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
-    res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
-
+    // Checks if the cookie "LoggedInUser" is True, if it does it allows them in, if its not it doesnt let them in
+    let cookie = req.cookies.LoggedInUser;
+    if (cookie) {
+        let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
+        res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
+    } else {
+        res.redirect("/")
+    }
 });
 
 // Upload Data - Taken from https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
@@ -65,6 +75,27 @@ app.post("/upload-data", (req, res) => {
     });
 });
 // End of their code
+
+// Login
+app.post("/", (req, res) => {
+    let username = req.body.username; // Gets username
+    let password = req.body.password; // Gets password
+    console.log(username + "Has logged in"); // Simple hey
+    if (username == "root") {
+        if (password == "root") {
+            // Generates a cookie of the login is correct "LoggedInUser" - taken from https://stackoverflow.com/questions/16209145/how-to-set-cookie-in-node-js-using-express-framework
+            // Edited a little to fit my needs better
+            var randomNumber=Math.random().toString();
+            randomNumber=randomNumber.substring(2,randomNumber.length);
+            res.cookie("LoggedInUser",randomNumber, { maxAge: 10000, httpOnly: true }); // Lasts for 10 min
+            console.log("cookie created successfully");
+            // end of their code
+            res.redirect("/data"); // Logs in if user and pass are "root"
+        }
+    } else {
+        res.redirect("/") // Else it just resets :)
+    };
+});
 
 // Delete function - Had help from Matthew
 app.delete("/data", (req, res) => {

@@ -61,7 +61,7 @@ app.get("/data", (req, res) => { // Goes to /data
     let cookie = req.cookies.LoggedInUser;
     if (cookie == hashed) {
         let files = fs.readdirSync("./data/"); // Every time the site is reloded it will list new files :)
-        res.render("files.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
+        res.render("data.ejs", { files }); // renders files.ejs under root/views/files.ejs - and sends files[] to the var
     } else {
         res.redirect("/")
     }

@@ -42,17 +42,19 @@ const storage = multer.diskStorage({
 });
 // End of their code
 
+//----------------------------------------------------------------------------------------------------
+
 // app.METHOD(PATH, HANDLER)
 // METHOD is an HTTP request method, in lowercase.
 // PATH is a path on the server.
 // HANDLER is the function executed when the route is matched.
 
-// Home
+// Home Page
 app.get("/", (req, res) => { // Using "get" method, at directory "/" (index) - lambda function that takes "req" (request) and "res" (response)
     res.render("index.ejs") // Responds by rendering index.ejs file
 })
 
-// Data
+// Data Page
 app.get("/data", (req, res) => { // Goes to /data
     let hashed = hashedCredentials(USERNAME, PASSWORD);
     // Checks if the cookie "LoggedInUser" is True, if it does it allows them in, if its not it doesnt let them in
@@ -65,7 +67,7 @@ app.get("/data", (req, res) => { // Goes to /data
     }
 });
 
-// Upload Data - Taken from https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
+// Upload Request - Taken from https://stackabuse.com/handling-file-uploads-in-node-js-with-expres-and-multer/
 app.post("/upload-data", (req, res) => {
     let upload = multer({ storage: storage}).single("uploadData"); // Sets our storage to the storage set above
 
@@ -91,7 +93,7 @@ app.post("/upload-data", (req, res) => {
 });
 // End of their code
 
-// Login
+// Login Request
 app.post("/", (req, res) => {
     let username = req.body.username; // Gets username
     let password = req.body.password; // Gets password
@@ -109,7 +111,7 @@ app.post("/", (req, res) => {
     };
 });
 
-// Delete function - Had help from Matthew
+// Delete Request - Had help from Matthew
 app.delete("/data", (req, res) => {
     let fileName = req.query.fileName
     let files = fs.readdirSync("./data/");
